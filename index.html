@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Giftastics</title>
+    </head>
+
+    <body>
+        <div id="buttons">
+            <button data-pokemon="pikachu">pikachu</button>
+            <button data-pokemon="bulbasaur">bulbasaur</button>
+            <button data-pokemon="mewtwo">mewtwo</button>
+        </div>
+
+        <div id="gifs">
+
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            $("button").on("click", function() {  
+                var pokemon = $(this).attr("data-pokemon");
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + pokemon + "&api_key=vOEoHMPzSK4c2B0yO8bLPopGOg9LkamE";
+                
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function(response) {
+                    var results = response.data;
+
+                    for (let i = 0; i < results.length; i++) {
+                        var gifDiv = $("<div>");
+
+                        var pokemonImage = $("<img>");
+                        pokemonImage.attr("src", results[i].images.fixed_height.url);
+
+                        gifDiv.prepend(pokemonImage);
+
+                        $("#gifs").prepend(gifDiv);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
