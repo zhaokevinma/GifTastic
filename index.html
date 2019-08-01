@@ -3,43 +3,63 @@
     <head>
         <title>Giftastics</title>
     </head>
-
     <body>
-        <div id="buttons">
-            <button data-pokemon="pikachu">pikachu</button>
-            <button data-pokemon="bulbasaur">bulbasaur</button>
-            <button data-pokemon="mewtwo">mewtwo</button>
+        <!-- Dynamically generated buttons goes under this div by being appended -->
+        <div id="buttons"></div>
+        <!-- Text entry field for user-created button -->
+        <div id="forms">
+            <form id="form">
+                <label for="pokemon-input">Add a pokemon!</label>
+                <input type="text" id="pokemon-input"><br>
+                <input type="submit" id="add-pokemon" value="Add a pokemon!">
+            </form>
         </div>
-
-        <div id="gifs">
-
-        </div>
-
+        <!-- Gifs from Ajax response goes under this div by being appended -->
+        <div id="gifs"></div>
+        <!-- jQuery CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- javascript -->
         <script type="text/javascript">
-
-            $("button").on("click", function() {  
-                var pokemon = $(this).attr("data-pokemon");
-                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + pokemon + "&api_key=vOEoHMPzSK4c2B0yO8bLPopGOg9LkamE";
-                
+            // Define an array of pokemons
+            var pokemons = ["pikachu", "bulbasaur", "mewtwo"];
+            // Dynamically generate buttons for each entry/pokemon in the array above
+            function renderButtons () {
+                $("#buttons").empty();
+                for (let i = 0; i < pokemons.length; i++) {
+                    var button = $("<button>");
+                    button.attr("class", "button");
+                    button.attr("data-pokemon", pokemons[i]);
+                    button.text(pokemons[i]);
+                    $("#buttons").append(button);
+                }
+            }
+            // Once a button is clicked, an Ajax call is made and gifs come back will be appended to gifs div in index.html
+            $(document).on("click", ".button", function() {  
+                var dataPokemon = $(this).attr("data-pokemon");
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + dataPokemon + "&api_key=vOEoHMPzSK4c2B0yO8bLPopGOg9LkamE";               
                 $.ajax({
                     url: queryURL,
                     method: "GET"
                 }).then(function(response) {
                     var results = response.data;
-
                     for (let i = 0; i < results.length; i++) {
                         var gifDiv = $("<div>");
-
                         var pokemonImage = $("<img>");
                         pokemonImage.attr("src", results[i].images.fixed_height.url);
-
                         gifDiv.prepend(pokemonImage);
-
                         $("#gifs").prepend(gifDiv);
                     }
                 });
             });
+            // User can submit text input in text-entry field to create new button for gif query
+            $("#add-pokemon").on("click", function(event) {
+                event.preventDefault();
+                var pokemonInput = $("#pokemon-input").val().trim();
+                pokemons.push(pokemonInput);
+                renderButtons();
+            });
+            // Main
+            renderButtons();
         </script>
     </body>
 </html>
