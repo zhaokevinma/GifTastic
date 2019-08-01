@@ -43,13 +43,26 @@
                 }).then(function(response) {
                     var results = response.data;
                     for (let i = 0; i < results.length; i++) {
-                        var gifDiv = $("<div>");
-                        var pokemonImage = $("<img>");
-                        pokemonImage.attr("src", results[i].images.fixed_height.url);
-                        gifDiv.prepend(pokemonImage);
-                        $("#gifs").prepend(gifDiv);
+                        var pokemonGifStill = $("<img>");
+                        pokemonGifStill.attr("src", results[i].images.fixed_height_still.url);
+                        pokemonGifStill.attr("data-still", results[i].images.fixed_height_still.url);
+                        pokemonGifStill.attr("data-animate", results[i].images.fixed_height.url);
+                        pokemonGifStill.attr("data-state", "still");
+                        $("#gifs").prepend(pokemonGifStill);
                     }
                 });
+            });
+            // Once a gif is clicked, it will transform between still and animated
+            $(document).on("click", "img", function() {
+                var state = $(this).attr("data-state");
+                if (state == "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                }
+                else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
             });
             // User can submit text input in text-entry field to create new button for gif query
             $("#add-pokemon").on("click", function(event) {
