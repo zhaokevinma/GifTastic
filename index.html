@@ -2,6 +2,11 @@
 <html>
     <head>
         <title>Giftastics</title>
+        <style>
+            span {
+                float: left;
+            }
+        </style>
     </head>
     <body>
         <!-- Dynamically generated buttons goes under this div by being appended -->
@@ -41,6 +46,7 @@
                     url: queryURL,
                     method: "GET"
                 }).then(function(response) {
+                    console.log(response);
                     var results = response.data;
                     for (let i = 0; i < results.length; i++) {
                         var pokemonGifStill = $("<img>");
@@ -48,7 +54,13 @@
                         pokemonGifStill.attr("data-still", results[i].images.fixed_height_still.url);
                         pokemonGifStill.attr("data-animate", results[i].images.fixed_height.url);
                         pokemonGifStill.attr("data-state", "still");
-                        $("#gifs").prepend(pokemonGifStill);
+                        var pokemonGifRating = $("<p>");
+                        pokemonGifRating.text("Rating: :" + results[i].rating);
+                        var newSpan = $("<span>");
+                        newSpan.attr("id", i);
+                        newSpan.prepend(pokemonGifRating);
+                        newSpan.prepend(pokemonGifStill);
+                        $("#gifs").prepend(newSpan);
                     }
                 });
             });
