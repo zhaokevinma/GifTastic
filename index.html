@@ -6,6 +6,32 @@
             span {
                 float: left;
             }
+            .button {
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 10px;
+                background-image: url(images/button.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            #add-pokemon {
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 10px;
+                background-image: url(images/button.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
         </style>
     </head>
     <body>
@@ -14,7 +40,7 @@
         <!-- Text entry field for user-created button -->
         <div id="forms">
             <form id="form">
-                <label for="pokemon-input">Add a pokemon!</label>
+                <label for="pokemon-input" style="font-size: 16px; margin: 10px">Add a pokemon!</label>
                 <input type="text" id="pokemon-input"><br>
                 <input type="submit" id="add-pokemon" value="Add a pokemon!">
             </form>
