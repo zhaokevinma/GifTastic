@@ -5,21 +5,9 @@
         <style>
             span {
                 float: left;
+                margin-left: 10px;
             }
-            .button {
-                border: none;
-                color: white;
-                padding: 15px 32px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 10px;
-                background-image: url(images/button.jpg);
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-            #add-pokemon {
+            .button, #add-pokemon {
                 border: none;
                 color: white;
                 padding: 15px 32px;
@@ -107,6 +95,7 @@
                 event.preventDefault();
                 var pokemonInput = $("#pokemon-input").val().trim();
                 pokemons.push(pokemonInput);
+                $("#pokemon-input").val("");
                 renderButtons();
             });
             // Main
